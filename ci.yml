@@ -1,0 +1,31 @@
+# Nom du workflow CI (Continuous Integration)
+name: CI Pipeline
+
+# Déclencheurs : quand lancer ce workflow
+on:
+  push:
+    branches: [ "soufiane il est trop beau" ]    # Seulement si le push se fait sur la branche "main"
+
+# Définition des jobs (tâches) à exécuter
+jobs:
+  build:                    # Nom du job
+    runs-on: ubuntu-latest  # Indique le système d'exploitation utilisé pour ce job (ici Ubuntu)
+
+    steps:                  # Étapes à exécuter dans ce job
+
+      - uses: actions/checkout@v3
+        # Étape 1 : récupère le code du dépôt GitHub dans la machine virtuelle
+
+      - name: Install dependencies
+        run: npm install
+        # Étape 2 : installe toutes les dépendances Node.js du projet (ce qui est dans package.json)
+
+      - name: Run tests
+        run: npm test
+        # Étape 3 : exécute les tests définis dans le projet pour vérifier que tout fonctionne correctement
+
+      - name: Build Docker image
+        run: docker build -t resiliency-app .
+        # Étape 4 : construit l'image Docker de l'application
+        # Le tag "-t resiliency-app" permet de nommer l'image "resiliency-app"
+        # Le point "." indique que le Dockerfile est dans le dossier courant
